@@ -1,14 +1,28 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
+import { GlobalContext } from '../context/GlobalState'
 
+const rand = (length = 100) => {
+    return Math.floor((Math.random() * 100000) + length)
+}
 const AddTransaction = () => {
     const [transaction, setTransaction] = useState({
-        type: '',
+        type: 'expense',
         amount: '',
         note: '',
     })
+    const { addTransaction } = useContext(GlobalContext)
     const handleSubmit = (e) => {
         e.preventDefault()
-        console.log(transaction)
+        let newTransaction = {
+            id: rand(1000),
+            ...transaction,
+            userId: 1,
+            createdAt: new Date().toLocaleString(),
+            updatedAt: new Date().toLocaleString(),
+        }
+        // console.log(newTransaction)
+
+        addTransaction(newTransaction)
     }
     return (
         <>
@@ -20,6 +34,7 @@ const AddTransaction = () => {
                         <option defaultValue="expense">Expense</option>
                         <option value="income">Income</option>
                         <option value="debt">Debt</option>
+                        <option value="lend">Lend</option>
                     </select>
                 </div>
 
@@ -27,7 +42,7 @@ const AddTransaction = () => {
                     <label htmlFor="amount">Amount</label>
                     <input type="number"
                         value={transaction.amount}
-                        onChange={(e) => setTransaction({ ...transaction, amount: e.target.value })}
+                        onChange={(e) => setTransaction({ ...transaction, amount: parseFloat(e.target.value) })}
                         placeholder="Enter amount..."
                     />
                 </div>
