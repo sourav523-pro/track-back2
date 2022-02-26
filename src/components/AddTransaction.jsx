@@ -2,9 +2,9 @@ import React, { useState } from 'react'
 
 const AddTransaction = () => {
     const [transaction, setTransaction] = useState({
-        type: null,
-        amount: null,
-        note: null,
+        type: '',
+        amount: '',
+        note: '',
     })
     const handleSubmit = (e) => {
         e.preventDefault()

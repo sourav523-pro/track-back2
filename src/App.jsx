@@ -1,6 +1,6 @@
 import Header from "./components/Header";
 import Balance from "./components/Balance";
-import Transaction from "./components/Transaction";
+import Transactions from "./components/Transactions";
 import AddTransaction from "./components/AddTransaction";
 //Global provider
 import { GlobalProvider } from "./context/GlobalState";
@@ -10,10 +10,10 @@ import './css/style.css';
 const App = () => {
   return (
     <GlobalProvider>
-      <div class="container">
+      <div className="container">
         <Header />
         <Balance />
-        <Transaction />
+        <Transactions />
         <AddTransaction />
       </div>
     </GlobalProvider>
