@@ -20,9 +20,8 @@ const AddTransaction = () => {
             createdAt: new Date().toLocaleString(),
             updatedAt: new Date().toLocaleString(),
         }
-        // console.log(newTransaction)
-
         addTransaction(newTransaction)
+        setTransaction({ ...transaction, amount: '', note: '' })
     }
     return (
         <>

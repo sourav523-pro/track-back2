@@ -8,6 +8,7 @@ const AppReducer = (state, action) => {
                 loading: false,
                 transactions: action.transactions
             }
+            break
         case 'DELETE_TRANSACTION':
             res = {
                 ...state, transactions: state.transactions.filter(transaction => transaction.id !== action.delId)

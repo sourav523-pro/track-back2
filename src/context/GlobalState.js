@@ -1,16 +1,6 @@
 import React, { createContext, useReducer } from "react"
 import AppReducer from "./AppReducer"
 //Initial State
-
-// const initialState = {
-//     transactions: [
-//         { id: 1, type: 'expense', amount: 150, note: 'Full day expense' },
-//         { id: 2, type: 'income', amount: 1000, note: 'This month income' },
-//         { id: 3, type: 'debt', amount: 100, note: 'Debt from someone' },
-//         { id: 4, type: 'lend', amount: 230, note: 'Lend from someone' },
-//     ]
-// }
-
 const initialState = {
     transactions: [],
     error: null,
@@ -41,8 +31,8 @@ export const GlobalProvider = ({ children }) => {
             return { data: null, err: err }
         }
     }
-    const getTransactions = () => {
-        let { err, data } = callApi('/api/v2/transactions', 'GET', headers)
+    const getTransactions = async () => {
+        let { data, err } = await callApi('/api/v2/transactions', 'GET', headers)
         if (data) {
             dispatch({
                 type: 'GET_TRANSACTIONS',
@@ -55,8 +45,8 @@ export const GlobalProvider = ({ children }) => {
             })
         }
     }
-    const getTransaction = (id) => {
-        let { err, data } = callApi('/api/v2/transactions/' + id, 'GET', headers)
+    const getTransaction = async (id) => {
+        let { err, data } = await callApi('/api/v2/transactions/' + id, 'GET', headers)
         if (data)
             dispatch({
                 type: 'GET_TRANSACTION',
@@ -69,8 +59,8 @@ export const GlobalProvider = ({ children }) => {
             })
 
     }
-    const deleteTransaction = (id) => {
-        let { err, data } = callApi('/api/v2/transactions/' + id, 'DELETE', headers)
+    const deleteTransaction = async (id) => {
+        let { err, data } = await callApi('/api/v2/transactions/' + id, 'DELETE', headers)
         if (data)
             dispatch({
                 type: 'DELETE_TRANSACTION',
@@ -82,8 +72,9 @@ export const GlobalProvider = ({ children }) => {
                 errors: err
             })
     }
-    const addTransaction = (transaction) => {
-        let { err, data } = callApi('/api/v2/transactions', 'POST', headers, transaction)
+    const addTransaction = async (transaction) => {
+        console.log(transaction)
+        let { err, data } = await callApi('/api/v2/transactions', 'POST', headers, JSON.stringify(transaction))
         if (data)
             dispatch({ type: 'ADD_TRANSACTION', addTransaction: transaction })
         else
@@ -92,8 +83,8 @@ export const GlobalProvider = ({ children }) => {
                 errors: err
             })
     }
-    const editTransaction = (id, transaction) => {
-        let { err, data } = callApi('/api/v2/transactions/' + id, 'PUT', headers, transaction)
+    const editTransaction = async (id, transaction) => {
+        let { err, data } = await callApi('/api/v2/transactions/' + id, 'PUT', headers, JSON.stringify(transaction))
         if (data)
             dispatch({
                 type: 'EDIT_TRANSACTION',

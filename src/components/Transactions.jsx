@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect } from 'react'
 import { GlobalContext } from '../context/GlobalState'
 
 const ListItem = ({ transaction, onDelete }) => {
@@ -13,12 +13,13 @@ const ListItem = ({ transaction, onDelete }) => {
 }
 
 const Transactions = () => {
-    const { transactions, deleteTransaction } = useContext(GlobalContext)
-    // console.log(transactions)
+    const { transactions, deleteTransaction, getTransactions } = useContext(GlobalContext)
+    useEffect(() => {
+        getTransactions()
+    }, []);
     return (
         <>
             <div>Transactions</div>
-
             <div className="transaction-list">
                 {transactions.map((item, index) => (<ListItem key={index} transaction={item} onDelete={deleteTransaction} />))}
             </div>
