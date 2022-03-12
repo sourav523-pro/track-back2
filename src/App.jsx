@@ -5,7 +5,7 @@ import AddTransaction from "./components/AddTransaction";
 //Global provider
 import { GlobalProvider } from "./context/GlobalState";
 //  Global style sheet  
-import './css/style.css';
+// import './css/style.css';
 
 const App = () => {
   return (

@@ -16,7 +16,7 @@ const Transactions = () => {
     const { transactions, deleteTransaction, getTransactions } = useContext(GlobalContext)
     useEffect(() => {
         getTransactions()
-    }, []);
+    }, [getTransactions]);
     return (
         <>
             <div>Transactions</div>
