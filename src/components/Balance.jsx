@@ -33,7 +33,7 @@ const Balance = () => {
             <p>
                 Total: {numberFormat(totalIncomes + totalDebts - totalLends - totalExpences)}
             </p>
-            <div className="row">
+            <div className="row flex justify-evenly">
                 <div>
                     <span>Total Income <br /> {numberFormat(totalIncomes)}</span>
                 </div>

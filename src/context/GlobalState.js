@@ -31,8 +31,14 @@ export const GlobalProvider = ({ children }) => {
             return { data: null, err: err }
         }
     }
+    const getAllTransactions = async () => {
+        let res = await callApi('/api/v2/transactions', 'GET', headers)
+        return res;
+    }
     const getTransactions = async () => {
-        let { data, err } = await callApi('/api/v2/transactions', 'GET', headers)
+        let date = new Date().toLocaleDateString()
+        let { data, err } = await callApi('/api/v2/transactions?createdAt=' + date, 'GET', headers)
+        console.log(data)
         if (data) {
             dispatch({
                 type: 'GET_TRANSACTIONS',
@@ -103,6 +109,7 @@ export const GlobalProvider = ({ children }) => {
                 transactions: state.transactions,
                 error: state.error,
                 loading: state.loading,
+                getAllTransactions,
                 getTransactions,
                 getTransaction,
                 addTransaction,
