@@ -1,8 +1,10 @@
 import React, { createContext, useReducer } from "react"
 import AppReducer from "./AppReducer"
 //Initial State
+const storedUserAuth = localStorage.getItem('authtoken') || ''
 const initialState = {
     transactions: [],
+    authtoken: storedUserAuth,
     error: null,
     loading: true
 }
@@ -38,7 +40,7 @@ export const GlobalProvider = ({ children }) => {
     const getTransactions = async () => {
         let date = new Date().toLocaleDateString()
         let { data, err } = await callApi('/api/v2/transactions?createdAt=' + date, 'GET', headers)
-        console.log(data)
+        // console.log(data)
         if (data) {
             dispatch({
                 type: 'GET_TRANSACTIONS',
@@ -46,7 +48,7 @@ export const GlobalProvider = ({ children }) => {
             })
         } else {
             dispatch({
-                type: 'TRANSACTION_ERROR',
+                type: 'ERROR',
                 errors: err
             })
         }
@@ -60,7 +62,7 @@ export const GlobalProvider = ({ children }) => {
             })
         else
             dispatch({
-                type: 'TRANSACTION_ERROR',
+                type: 'ERROR',
                 errors: err
             })
 
@@ -74,18 +76,18 @@ export const GlobalProvider = ({ children }) => {
             })
         else
             dispatch({
-                type: 'TRANSACTION_ERROR',
+                type: 'ERROR',
                 errors: err
             })
     }
     const addTransaction = async (transaction) => {
-        console.log(transaction)
+        // console.log(transaction)
         let { err, data } = await callApi('/api/v2/transactions', 'POST', headers, JSON.stringify(transaction))
         if (data)
             dispatch({ type: 'ADD_TRANSACTION', addTransaction: transaction })
         else
             dispatch({
-                type: 'TRANSACTION_ERROR',
+                type: 'ERROR',
                 errors: err
             })
     }
@@ -99,16 +101,37 @@ export const GlobalProvider = ({ children }) => {
             })
         else
             dispatch({
-                type: 'TRANSACTION_ERROR',
+                type: 'ERROR',
                 errors: err
             })
     }
+    const authorization = async (email, password) => {
+        let { err, data } = await callApi('/api/v2/user?email=' + email, 'GET', headers)
+        if (data) {
+            let userDetails = data[0];
+            if (userDetails.password === password) {
+                let authtoken = btoa(email + ':' + password + ':' + userDetails.id)
+                localStorage.setItem("authtoken", authtoken)
+                dispatch({
+                    type: 'AUTH_SUCCESS',
+                    authToken: authtoken
+                })
+            }
+        } else
+            dispatch({
+                type: 'ERROR',
+                errors: err
+            })
+    }
+
     return (
         <GlobalContext.Provider
             value={{
                 transactions: state.transactions,
                 error: state.error,
                 loading: state.loading,
+                authtoken: state.authtoken,
+                authorization,
                 getAllTransactions,
                 getTransactions,
                 getTransaction,

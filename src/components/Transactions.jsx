@@ -15,7 +15,7 @@ const ListItem = ({ transaction, onDelete }) => {
 }
 
 const Transactions = () => {
-    const { transactions, error, deleteTransaction, getTransactions } = useContext(GlobalContext)
+    const { transactions, deleteTransaction, getTransactions } = useContext(GlobalContext)
 
     useEffect(() => { getTransactions(); }, []);
     return (

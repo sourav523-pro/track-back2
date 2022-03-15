@@ -24,7 +24,12 @@ const AppReducer = (state, action) => {
                 ...state, transactions: state.transactions.map(item => item.id === action.editId ? { id: action.editId, ...action.newTransaction } : item)
             }
             break
-        case 'TRANSACTION_ERROR':
+        case 'AUTH_SUCCESS':
+            res = {
+                ...state, authtoken: action.authToken
+            }
+            break
+        case 'ERROR':
             return {
                 ...state,
                 error: action.errors
