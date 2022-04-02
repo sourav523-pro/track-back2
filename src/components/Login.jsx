@@ -40,7 +40,7 @@ const Login = () => {
         if (authtoken) {
             navigate('/')
         }
-    }, [])
+    }, [authtoken])
 
     return (
         <div className="min-h-screen bg-gray-100 flex flex-col justify-center sm:py-12">

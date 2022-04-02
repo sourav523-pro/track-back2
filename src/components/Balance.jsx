@@ -1,7 +1,7 @@
 import React, { useContext } from 'react'
 import { GlobalContext } from '../context/GlobalState'
 
-export const numberFormat = (number, symbol = '$') => {
+export const numberFormat = (number, symbol = '₹') => {
     let sign = ''
     let num = number
     if (number < 0) {
@@ -17,7 +17,6 @@ const Balance = () => {
     // let debts = transactions.map(transaction => transaction.type == 'debt' ? transaction.amount : 0)
 
     let totalExpences = 0, totalIncomes = 0, totalDebts = 0, totalLends = 0
-    console.log(transactions)
     transactions.forEach(({ type, amount }) => {
         if (type === 'income')
             totalIncomes += amount

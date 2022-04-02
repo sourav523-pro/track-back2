@@ -34,12 +34,15 @@ export const GlobalProvider = ({ children }) => {
         }
     }
     const getAllTransactions = async () => {
-        let res = await callApi('/api/v2/transactions', 'GET', headers)
+        let userId = atob(state.authtoken).split(':')[2]
+        let res = await callApi('/api/v2/transactions?userId=' + userId, 'GET', headers)
         return res;
     }
     const getTransactions = async () => {
         let date = new Date().toLocaleDateString()
-        let { data, err } = await callApi('/api/v2/transactions?createdAt=' + date, 'GET', headers)
+        let userId = atob(state.authtoken).split(':')[2]
+        let url = '/api/v2/transactions?userId=' + userId
+        let { data, err } = await callApi(url, 'GET', headers)
         // console.log(data)
         if (data) {
             dispatch({

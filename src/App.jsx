@@ -1,5 +1,3 @@
-import Home from "./components/Home"
-import Login from "./components/Login"
 //Global provider
 import { GlobalProvider } from "./context/GlobalState"
 import { BrowserRouter as Router } from "react-router-dom"

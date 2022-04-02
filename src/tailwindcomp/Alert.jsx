@@ -13,6 +13,11 @@ const Alert = ({ type, title, message, onClose }) => {
                     </div>
                 </div>
             </div>
+            <div className="bg-indigo-400 bg-indigo-600 text-indigo-100 "></div>
+            <div className="bg-blue-400 bg-blue-600 text-blue-100 "></div>
+            <div className="bg-green-400 bg-green-600 text-green-100 "></div>
+            <div className="bg-red-400 bg-red-600 text-red-100 "></div>
+            <div className="bg-yellow-400 bg-yellow-600 text-yellow-100 "></div>
         </>
     )
 

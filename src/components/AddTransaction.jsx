@@ -15,7 +15,7 @@ const AddTransaction = () => {
         title: '',
         message: ''
     })
-    const { addTransaction } = useContext(GlobalContext)
+    const { authtoken, addTransaction } = useContext(GlobalContext)
     const handleSubmit = (e) => {
         e.preventDefault()
         let amount = transaction.amount
@@ -25,13 +25,20 @@ const AddTransaction = () => {
         else if (amount === null || amount === '' || amount <= 0) {
             setAlert({ type: 'yellow', title: 'Alert', message: 'Amount must be graterthan 0' })
         } else {
+            let userId = atob(authtoken).split(':')[2]
+            let dateArr = [], dateStr = new Date().toLocaleDateString()
+            dateStr.split('/').forEach((item, index) => {
+                let num = parseInt(item)
+                dateArr[index] = num < 10 ? '0' + num : num
+            })
+            dateStr = dateArr.join('/')
             let newTransaction = {
                 id: rand(1000),
                 type: transaction.type,
                 amount: parseFloat(amount),
                 note: transaction.note,
-                userId: 1,
-                createdAt: new Date().toLocaleDateString(),
+                userId: userId,
+                createdAt: dateStr,
                 updatedAt: new Date().toLocaleString(),
             }
             // console.log(newTransaction)
@@ -124,53 +131,5 @@ const AddTransaction = () => {
         </>
     )
 }
-
-// const AddTransaction2 = () => {
-//     return (
-//         <div className="p-10 xs:p-0 mx-auto md:w-full md:max-w-md">
-//             <h1 className="font-bold text-center text-2xl mb-5">Add transaction</h1>
-//             <div className="bg-white shadow w-full rounded-lg divide-y divide-gray-200">
-//                 <form onSubmit={handleSubmit} className="px-5 py-7">
-//                     <div className="form-group">
-//                         <label className="font-semibold text-sm text-gray-600 pb-1 block">Type</label>
-//                         <select
-//                             className="border rounded-lg px-3 py-2 mt-1 mb-5 text-sm w-full"
-//                             onChange={e => setTransaction({ ...transaction, type: e.target.value })} name="type">
-//                             <option value="expense">Expense</option>
-//                             <option value="income">Income</option>
-//                             <option value="debt">Debt</option>
-//                             <option value="lend">Lend</option>
-//                         </select>
-//                     </div>
-//                     <div className="form-group">
-//                         <label className="font-semibold text-sm text-gray-600 pb-1 block">Amount</label>
-//                         <input
-//                             type="text"
-//                             value={transaction.amount}
-//                             onChange={(e) => setTransaction({ ...transaction, amount: e.target.value })}
-//                             placeholder="Enter amount"
-//                             className="border rounded-lg px-3 py-2 mt-1 mb-5 text-sm w-full"
-//                         />
-//                     </div>
-//                     <div className="form-group">
-//                         <label className="font-semibold text-sm text-gray-600 pb-1 block">Description</label>
-//                         <input
-//                             type="text"
-//                             value={transaction.note}
-//                             onChange={(e) => setTransaction({ ...transaction, note: e.target.value })}
-//                             placeholder="Enter description"
-//                             className="border rounded-lg px-3 py-2 mt-1 mb-5 text-sm w-full"
-//                         />
-//                     </div>
-//                     <div className="form-group">
-//                         <button type="submit" className="transition duration-200 bg-blue-500 hover:bg-blue-600 focus:bg-blue-700 focus:shadow-sm focus:ring-4 focus:ring-blue-500 focus:ring-opacity-50 text-white w-full py-2.5 rounded-lg text-sm shadow-sm hover:shadow-md font-semibold text-center inline-block">
-//                             <span className="inline-block mr-2">Add</span>
-//                         </button>
-//                     </div>
-//                 </form>
-//             </div>
-//         </div>
-//     )
-// }
 
 export default AddTransaction
