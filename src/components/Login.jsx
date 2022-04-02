@@ -31,6 +31,9 @@ const Login = () => {
                 password: '',
                 clicked: true
             })
+            if (authtoken) {
+                navigate('/')
+            }
         }
     }
     useEffect(() => {

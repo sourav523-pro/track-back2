@@ -17,7 +17,8 @@ function Home() {
 
     return (
         <>
-            <div className="min-h-screen bg-gray-100 flex flex-col justify-center px-10 sm:py-12">
+            <div className="container mx-5 my-5">
+                {/* <div className="min-h-screen bg-gray-100 flex flex-col justify-center px-10 sm:py-12"> */}
                 <Header />
                 <Balance />
                 <Transactions />

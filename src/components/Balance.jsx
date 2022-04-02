@@ -17,6 +17,7 @@ const Balance = () => {
     // let debts = transactions.map(transaction => transaction.type == 'debt' ? transaction.amount : 0)
 
     let totalExpences = 0, totalIncomes = 0, totalDebts = 0, totalLends = 0
+    console.log(transactions)
     transactions.forEach(({ type, amount }) => {
         if (type === 'income')
             totalIncomes += amount
@@ -28,26 +29,25 @@ const Balance = () => {
             totalLends += amount
     })
     return (
-        <div>
-            <h3>Balance</h3>
-            <p>
-                Total: {numberFormat(totalIncomes + totalDebts - totalLends - totalExpences)}
-            </p>
-            <div className="row flex justify-evenly">
-                <div>
+        <>
+            <div className="row mx-4 my-3 sm:grid md:grid-cols-3 xl:grid-cols-5 3xl:flex flex-wrap justify-center">
+                <div className="bg-gray-500 border-1 rounded p-4 mx-4 my-3 text-white text-1xl font-bold">
+                    <span>Total Balance <br /> {numberFormat(totalIncomes + totalDebts - totalLends - totalExpences)} </span>
+                </div>
+                <div className="bg-green-500 border-1 rounded p-4 mx-4 my-3 text-white text-1xl font-bold">
                     <span>Total Income <br /> {numberFormat(totalIncomes)}</span>
                 </div>
-                <div>
+                <div className="bg-green-300 border-1 rounded p-4 mx-4 my-3 text-white text-1xl font-bold">
                     <span>Total Lend <br /> {numberFormat(totalLends)}</span>
                 </div>
-                <div>
+                <div className="bg-red-500 border-1 rounded p-4 mx-4 my-3 text-white text-1xl font-bold">
                     <span>Total Expense <br /> {numberFormat(totalExpences)}</span>
                 </div>
-                <div>
+                <div className="bg-yellow-500 border-1 rounded p-4 mx-4 my-3 text-white text-1xl font-bold">
                     <span>Total Debt <br /> {numberFormat(totalDebts)}</span>
                 </div>
             </div>
-        </div>
+        </>
     )
 }
 

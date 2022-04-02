@@ -108,6 +108,7 @@ export const GlobalProvider = ({ children }) => {
     const authorization = async (email, password) => {
         let { err, data } = await callApi('/api/v2/user?email=' + email, 'GET', headers)
         if (data) {
+            console.log(data)
             let userDetails = data[0];
             if (userDetails.password === password) {
                 let authtoken = btoa(email + ':' + password + ':' + userDetails.id)
@@ -116,7 +117,12 @@ export const GlobalProvider = ({ children }) => {
                     type: 'AUTH_SUCCESS',
                     authToken: authtoken
                 })
-            }
+            } else
+                dispatch({
+                    type: 'ERROR',
+                    errors: 'Invalid password'
+                })
+
         } else
             dispatch({
                 type: 'ERROR',
