@@ -43,7 +43,7 @@ const Transactions = () => {
             <div className="text-center text-2xl font-bold">Transactions</div>
             <div className="px-5 my-10 md:w-50">
                 <div className="transaction-list">
-                    {transactions ? transactions.map((item, index) => { if (item.createdAt == dateStr) return <ListItem key={index} transaction={item} onDelete={deleteTransaction} /> }) : [1, 2, 3, 4, 5].map((item, index) => (<ProcessingOptions key={index} />))}
+                    {transactions ? transactions.map((item, index) => { if (item.createdAt === dateStr) return <ListItem key={index} transaction={item} onDelete={deleteTransaction} /> }) : [1, 2, 3, 4, 5].map((item, index) => (<ProcessingOptions key={index} />))}
                 </div>
             </div>
         </>

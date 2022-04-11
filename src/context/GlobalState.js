@@ -1,10 +1,12 @@
 import React, { createContext, useReducer } from "react"
 import AppReducer from "./AppReducer"
-//Initial State
-const storedUserAuth = localStorage.getItem('authtoken') || ''
+//Initial State\
+const apiUrl = "https://factstar.000webhostapp.com"
+const storedUserAuth = localStorage.getItem('_trackbackauthtoken') || ''
 const initialState = {
     transactions: [],
     authtoken: storedUserAuth,
+    userData: {},
     error: null,
     loading: true
 }
@@ -16,38 +18,49 @@ export const GlobalContext = createContext(initialState)
 //Provider components
 export const GlobalProvider = ({ children }) => {
     const [state, dispatch] = useReducer(AppReducer, initialState)
+    // const headers = {
+    //     "Authorization": "Basic Y2RoYnV5dGdleGpudXVpMnRiMTYzNXg2NGozY2lvMnk4Yzc1OTZxbjl2dDQ2OiQyeSQxMCR2WVRidHN3UG02YWVac01RUmN2akNlS0FvTi5ObVY0WVljdmh3cjRUY2lFY043bG11YnVqQw==",
+    //     "Content-Type": "application/json"
+    // }
+    let email = state.userData.email || ''
     const headers = {
-        "Authorization": "Basic Y2RoYnV5dGdleGpudXVpMnRiMTYzNXg2NGozY2lvMnk4Yzc1OTZxbjl2dDQ2OiQyeSQxMCR2WVRidHN3UG02YWVac01RUmN2akNlS0FvTi5ObVY0WVljdmh3cjRUY2lFY043bG11YnVqQw==",
+        "Authorization": "Basic " + btoa(email + ':' + state.authtoken),
         "Content-Type": "application/json"
     }
     const callApi = async (url = '', method = 'GET', headers, body = null) => {
         try {
-            const res = await fetch(url, {
+            const res = await fetch(apiUrl + url, {
                 method: method,
                 body: body,
                 headers: headers
             })
             let data = await res.json()
-            return { data: data, err: null }
+            console.log(data)
+            if (data.status)
+                return { err: null, data: data.data }
+            else
+                return { err: data.message, data: data.data }
         } catch (err) {
-            return { data: null, err: err }
+            return { err: err, data: {} }
         }
     }
     const getAllTransactions = async () => {
-        let userId = atob(state.authtoken).split(':')[2]
-        let res = await callApi('/api/v2/transactions?userId=' + userId, 'GET', headers)
+        // let userId = atob(state.authtoken).split(':')[2]
+        let res = await callApi('/api/v1/transactions.php?duration=month', 'GET', headers)
         return res;
     }
     const getTransactions = async () => {
         let date = new Date().toLocaleDateString()
-        let userId = atob(state.authtoken).split(':')[2]
-        let url = '/api/v2/transactions?userId=' + userId
-        let { data, err } = await callApi(url, 'GET', headers)
-        // console.log(data)
+        // let userId = atob(state.authtoken).split(':')[2]
+        let url = '/api/v1/transactions.php?duration=month'
+        // let url = '/api/v1/transactions'
+
+        let { err, data } = await callApi(url, 'GET', headers)
+        console.log(data)
         if (data) {
             dispatch({
                 type: 'GET_TRANSACTIONS',
-                transactions: data
+                transactions: data ?? []
             })
         } else {
             dispatch({
@@ -57,7 +70,7 @@ export const GlobalProvider = ({ children }) => {
         }
     }
     const getTransaction = async (id) => {
-        let { err, data } = await callApi('/api/v2/transactions/' + id, 'GET', headers)
+        let { err, data } = await callApi('/api/v1/transactions.php?id' + id, 'GET', headers)
         if (data)
             dispatch({
                 type: 'GET_TRANSACTION',
@@ -71,7 +84,7 @@ export const GlobalProvider = ({ children }) => {
 
     }
     const deleteTransaction = async (id) => {
-        let { err, data } = await callApi('/api/v2/transactions/' + id, 'DELETE', headers)
+        let { err, data } = await callApi('/api/v1/transactions.php?id=' + id, 'DELETE', headers)
         if (data)
             dispatch({
                 type: 'DELETE_TRANSACTION',
@@ -85,7 +98,7 @@ export const GlobalProvider = ({ children }) => {
     }
     const addTransaction = async (transaction) => {
         // console.log(transaction)
-        let { err, data } = await callApi('/api/v2/transactions', 'POST', headers, JSON.stringify(transaction))
+        let { err, data } = await callApi('/api/v1/transactions.php', 'POST', headers, JSON.stringify(transaction))
         if (data)
             dispatch({ type: 'ADD_TRANSACTION', addTransaction: transaction })
         else
@@ -95,7 +108,7 @@ export const GlobalProvider = ({ children }) => {
             })
     }
     const editTransaction = async (id, transaction) => {
-        let { err, data } = await callApi('/api/v2/transactions/' + id, 'PUT', headers, JSON.stringify(transaction))
+        let { err, data } = await callApi('/api/v1/transactions.php?id' + id, 'PUT', headers, JSON.stringify(transaction))
         if (data)
             dispatch({
                 type: 'EDIT_TRANSACTION',
@@ -109,22 +122,34 @@ export const GlobalProvider = ({ children }) => {
             })
     }
     const authorization = async (email, password) => {
-        let { err, data } = await callApi('/api/v2/user?email=' + email, 'GET', headers)
+        let body = {
+            email: email,
+            password: password
+        }
+        let { err, data } = await callApi('/api/v1/login.php', 'POST', {}, JSON.stringify(body))
         if (data) {
             console.log(data)
-            let userDetails = data[0];
-            if (userDetails.password === password) {
-                let authtoken = btoa(email + ':' + password + ':' + userDetails.id)
-                localStorage.setItem("authtoken", authtoken)
-                dispatch({
-                    type: 'AUTH_SUCCESS',
-                    authToken: authtoken
-                })
-            } else
-                dispatch({
-                    type: 'ERROR',
-                    errors: 'Invalid password'
-                })
+            localStorage.setItem("_trackbackauthtoken", data.auth_token || '')
+            dispatch({
+                type: 'AUTH_SUCCESS',
+                authToken: data.auth_token,
+                userData: data
+            })
+
+
+            // let userDetails = data[0];
+            // if (userDetails.password === password) {
+            //     let authtoken = btoa(email + ':' + password + ':' + userDetails.id)
+            //     localStorage.setItem("authtoken", authtoken)
+            //     dispatch({
+            //         type: 'AUTH_SUCCESS',
+            //         authToken: authtoken
+            //     })
+            // } else
+            dispatch({
+                type: 'ERROR',
+                errors: 'Invalid password'
+            })
 
         } else
             dispatch({

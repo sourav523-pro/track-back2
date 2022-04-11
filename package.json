@@ -1,8 +1,7 @@
 {
   "name": "track-back2",
   "version": "0.1.0",
-  "private": true,
-  "proxy": "https://json-base.herokuapp.com",
+  "private": false,
   "dependencies": {
     "@heroicons/react": "^1.0.6",
     "@testing-library/jest-dom": "^5.14.1",

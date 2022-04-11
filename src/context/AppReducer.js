@@ -26,7 +26,7 @@ const AppReducer = (state, action) => {
             break
         case 'AUTH_SUCCESS':
             res = {
-                ...state, authtoken: action.authToken
+                ...state, authtoken: action.authToken, userData: action.userData
             }
             break
         case 'ERROR':
