@@ -4,12 +4,12 @@ import AppReducer from "./AppReducer"
 //Initial State
 const apiUrl = "https://json-base.herokuapp.com/api/v3/"
 // const apiUrl = "http://127.0.0.1:8000"
-const storedUserAuth = localStorage.getItem('_trackbackauthtoken') ?? ''
-const storedUser = localStorage.getItem('_trackbackuserdata')
+// const storedUserAuth = localStorage.getItem('_trackbackauthtoken') ?? ''
+const storedUser = atob(localStorage.getItem('_trackbackuserdatawithtoken'))
 const initialState = {
     transactions: [],
-    authtoken: storedUserAuth,
     userData: storedUser ? JSON.parse(storedUser) : {},
+    authtoken: storedUser ? storedUser.auth_token : '',
     error: null,
     loading: true
 }
@@ -133,8 +133,8 @@ export const GlobalProvider = ({ children }) => {
         let { err, data } = await callApi('login', 'POST', { "Content-Type": "application/json" }, body)
         if (data) {
             console.log(data)
-            localStorage.setItem("_trackbackauthtoken", data.auth_token ?? '')
-            localStorage.setItem("_trackbackuserdata", JSON.stringify(data) ?? {})
+            // localStorage.setItem("_trackbackauthtoken", data.auth_token ?? '')
+            localStorage.setItem("_trackbackuserdatawithtoken", btoa(JSON.stringify(data) ?? null))
             dispatch({
                 type: 'AUTH_SUCCESS',
                 authToken: data.auth_token,

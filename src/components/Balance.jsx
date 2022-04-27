@@ -17,17 +17,19 @@ const Balance = () => {
     // let debts = transactions.map(transaction => transaction.type == 'debt' ? transaction.amount : 0)
 
     let totalExpences = 0, totalIncomes = 0, totalDebts = 0, totalLends = 0
-    transactions ? transactions.forEach(({ type, amount }) => {
-        let num = parseFloat(amount)
-        if (type === 'income')
-            totalIncomes += num
-        else if (type === 'expense')
-            totalExpences += num
-        else if (type === 'debt')
-            totalDebts += num
-        else if (type === 'lend')
-            totalLends += num
-    }) : null
+    if (transactions)
+        transactions.forEach(({ type, amount }) => {
+            let num = parseFloat(amount)
+            if (type === 'income')
+                totalIncomes += num
+            else if (type === 'expense')
+                totalExpences += num
+            else if (type === 'debt')
+                totalDebts += num
+            else if (type === 'lend')
+                totalLends += num
+        })
+
     return (
         <>
             <div className="row mx-4 my-3 sm:grid md:grid-cols-3 xl:grid-cols-5 3xl:flex flex-wrap justify-center">
