@@ -15,7 +15,7 @@ const AddTransaction = () => {
         title: '',
         message: ''
     })
-    const { authtoken, addTransaction } = useContext(GlobalContext)
+    const { userData, addTransaction } = useContext(GlobalContext)
     const handleSubmit = (e) => {
         e.preventDefault()
         let amount = transaction.amount
@@ -25,21 +25,18 @@ const AddTransaction = () => {
         else if (amount === null || amount === '' || amount <= 0) {
             setAlert({ type: 'yellow', title: 'Alert', message: 'Amount must be graterthan 0' })
         } else {
-            let userId = atob(authtoken).split(':')[2]
-            let dateArr = [], dateStr = new Date().toLocaleDateString()
-            dateStr.split('/').forEach((item, index) => {
-                let num = parseInt(item)
-                dateArr[index] = num < 10 ? '0' + num : num
-            })
-            dateStr = dateArr.join('/')
+            let userId = userData.id
+            // let dateArr = [], dateStr = new Date().toLocaleDateString()
+            // dateStr.split('/').forEach((item, index) => {
+            //     let num = parseInt(item)
+            //     dateArr[index] = num < 10 ? '0' + num : num
+            // })
+            // dateStr = dateArr.join('/')
             let newTransaction = {
-                id: rand(1000),
                 type: transaction.type,
                 amount: parseFloat(amount),
                 note: transaction.note,
                 userId: userId,
-                createdAt: dateStr,
-                updatedAt: new Date().toLocaleString(),
             }
             // console.log(newTransaction)
             addTransaction(newTransaction)

@@ -3,7 +3,7 @@ import { GlobalContext } from '../context/GlobalState'
 
 export const numberFormat = (number, symbol = '₹') => {
     let sign = ''
-    let num = number
+    let num = parseFloat(number)
     if (number < 0) {
         num = Math.abs(number)
         sign = '-'
@@ -18,14 +18,15 @@ const Balance = () => {
 
     let totalExpences = 0, totalIncomes = 0, totalDebts = 0, totalLends = 0
     transactions.forEach(({ type, amount }) => {
+        let num = parseFloat(amount)
         if (type === 'income')
-            totalIncomes += amount
+            totalIncomes += num
         else if (type === 'expense')
-            totalExpences += amount
+            totalExpences += num
         else if (type === 'debt')
-            totalDebts += amount
+            totalDebts += num
         else if (type === 'lend')
-            totalLends += amount
+            totalLends += num
     })
     return (
         <>

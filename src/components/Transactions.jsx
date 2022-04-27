@@ -30,20 +30,19 @@ const Transactions = () => {
     const { transactions, deleteTransaction, getTransactions } = useContext(GlobalContext)
 
     useEffect(() => { getTransactions(); }, []);
-    let dateArr = []
-    let dateStr = new Date().toLocaleDateString()
-    // console.log(transactions)
-    dateStr.split('/').forEach((item, index) => {
-        let num = parseInt(item)
-        dateArr[index] = num < 10 ? '0' + num : num
+    let dateStr = []
+    let dateArr = new Date().toLocaleDateString().split('/')
+    dateArr.reverse()
+    dateArr.forEach((item, key) => {
+        dateStr[key] = item < 10 ? '0' + parseInt(item) : item
     })
-    dateStr = dateArr.join('/')
+    dateStr = dateStr.join('-')
     return (
         <>
             <div className="text-center text-2xl font-bold">Transactions</div>
             <div className="px-5 my-10 md:w-50">
                 <div className="transaction-list">
-                    {transactions ? transactions.map((item, index) => { if (item.createdAt === dateStr) return <ListItem key={index} transaction={item} onDelete={deleteTransaction} /> }) : [1, 2, 3, 4, 5].map((item, index) => (<ProcessingOptions key={index} />))}
+                    {transactions ? transactions.map((item, index) => { if (item.created_at.match(dateStr)) return <ListItem key={index} transaction={item} onDelete={deleteTransaction} /> }) : [1, 2, 3, 4, 5].map((item, index) => (<ProcessingOptions key={index} />))}
                 </div>
             </div>
         </>

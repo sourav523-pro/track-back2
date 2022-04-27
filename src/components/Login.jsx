@@ -45,6 +45,7 @@ const Login = () => {
     return (
         <div className="min-h-screen bg-gray-100 flex flex-col justify-center sm:py-12">
             {login.alert !== '' ? <Alert type='yellow' title='Alert' message={login.alert} onClose={() => { setLogin({ ...login, alert: '' }) }} /> : ''}
+            {/* {error !== '' ? <Alert type='yellow' title='Alert' message={error} onClose={() => { }} /> : ''} */}
             <div className="p-10 xs:p-0 mx-auto md:w-full md:max-w-md">
                 <h1 className="font-bold text-center text-2xl mb-5">Track Back</h1>
                 <div className="bg-white shadow w-full rounded-lg divide-y divide-gray-200">
