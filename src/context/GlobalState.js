@@ -5,11 +5,11 @@ import AppReducer from "./AppReducer"
 const apiUrl = "https://json-base.herokuapp.com/api/v3/"
 // const apiUrl = "http://127.0.0.1:8000"
 // const storedUserAuth = localStorage.getItem('_trackbackauthtoken') ?? ''
-const storedUser = atob(localStorage.getItem('_trackbackuserdatawithtoken'))
+const storedUser = localStorage.getItem('_trackbackuserdatawithtoken') ? JSON.parse(atob(localStorage.getItem('_trackbackuserdatawithtoken'))) : {}
 const initialState = {
     transactions: [],
-    userData: storedUser ? JSON.parse(storedUser) : {},
-    authtoken: storedUser ? storedUser.auth_token : '',
+    userData: storedUser,
+    authtoken: storedUser ? storedUser.auth_token : null,
     error: null,
     loading: true
 }
