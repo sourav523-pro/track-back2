@@ -104,7 +104,7 @@ export const GlobalProvider = ({ children }) => {
         // console.log(transaction)
         let { err, data } = await callApi('transactions', 'POST', headers, transaction)
         if (data)
-            dispatch({ type: 'ADD_TRANSACTION', addTransaction: transaction })
+            dispatch({ type: 'ADD_TRANSACTION', addTransaction: data })
         else
             dispatch({
                 type: 'ERROR',
@@ -117,7 +117,7 @@ export const GlobalProvider = ({ children }) => {
             dispatch({
                 type: 'EDIT_TRANSACTION',
                 editId: id,
-                newTransaction: transaction
+                newTransaction: data
             })
         else
             dispatch({
