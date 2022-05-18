@@ -29,6 +29,11 @@ const AppReducer = (state, action) => {
                 ...state, authtoken: action.authToken, userData: action.userData
             }
             break
+        case 'AUTH_END':
+            res = {
+                ...state, authtoken: null, userData: {}
+            }
+            break
         case 'ERROR':
             return {
                 ...state,

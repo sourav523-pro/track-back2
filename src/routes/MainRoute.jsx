@@ -5,6 +5,7 @@ import {
 import Home from "../components/Home"
 import Login from "../components/Login"
 import Error from "../components/Error"
+import Logout from "../components/Logout"
 
 const MainRoute = () => {
     return (
@@ -12,6 +13,7 @@ const MainRoute = () => {
             <Route path="/" element={<Home />} />
             <Route path="/home" element={<Home />} />
             <Route path="/login" element={<Login />} />
+            <Route path="/logout" element={<Logout />} />
             <Route path="*" element={<Error />} />
         </Routes>
     )

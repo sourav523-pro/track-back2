@@ -4,7 +4,6 @@ import { BrowserRouter as Router } from "react-router-dom"
 import MainRoute from "./routes/MainRoute"
 
 const App = () => {
-  // let authtoken = localStorage.getItem("_trackbackuserdatawithtoken")
   return (
     <GlobalProvider>
       <Router>

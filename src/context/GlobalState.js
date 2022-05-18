@@ -132,7 +132,7 @@ export const GlobalProvider = ({ children }) => {
         }
         let { err, data } = await callApi('login', 'POST', { "Content-Type": "application/json" }, body)
         if (data) {
-            console.log(data)
+            // console.log(data)
             // localStorage.setItem("_trackbackauthtoken", data.auth_token ?? '')
             localStorage.setItem("_trackbackuserdatawithtoken", btoa(JSON.stringify(data) ?? null))
             dispatch({
@@ -140,16 +140,20 @@ export const GlobalProvider = ({ children }) => {
                 authToken: data.auth_token,
                 userData: data
             })
-            dispatch({
-                type: 'ERROR',
-                errors: 'Invalid password'
-            })
-
         } else
             dispatch({
                 type: 'ERROR',
                 errors: err
             })
+    }
+    const logoutAction = () => {
+        let authEnd = localStorage.removeItem('_trackbackuserdatawithtoken')
+        dispatch({
+            type: 'AUTH_END',
+            authToken: null,
+            userData: null
+        })
+        return authEnd ? true : false
     }
 
     return (
@@ -166,7 +170,8 @@ export const GlobalProvider = ({ children }) => {
                 getTransaction,
                 addTransaction,
                 editTransaction,
-                deleteTransaction
+                deleteTransaction,
+                logoutAction
             }}
         >
             {children}
