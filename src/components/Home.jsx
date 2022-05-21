@@ -6,7 +6,7 @@ import Balance from "./Balance"
 import Transactions from "./Transactions"
 import AddTransaction from "./AddTransaction"
 function Home() {
-    const { authtoken, error } = useContext(GlobalContext)
+    const { authtoken } = useContext(GlobalContext)
     const navigate = useNavigate()
     useEffect(() => {
         if (!authtoken) {

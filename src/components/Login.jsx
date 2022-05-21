@@ -14,7 +14,7 @@ const Login = () => {
         clicked: false,
         alert: ''
     })
-    const { authorization, authtoken, error } = useContext(GlobalContext)
+    const { authorization, authtoken } = useContext(GlobalContext)
     const navigate = useNavigate()
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -40,7 +40,7 @@ const Login = () => {
         if (authtoken) {
             navigate('/')
         }
-    }, [authtoken])
+    }, [authtoken, navigate])
 
     return (
         <div className="min-h-screen bg-gray-100 flex flex-col justify-center sm:py-12">

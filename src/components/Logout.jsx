@@ -12,7 +12,7 @@ const Logout = () => {
         } else {
             navigate('/')
         }
-    }, [authtoken])
+    }, [authtoken, navigate, logoutAction])
 
     return (
         <div>Logout</div>

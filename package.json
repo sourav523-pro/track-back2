@@ -2,6 +2,7 @@
   "name": "track-back2",
   "version": "0.1.1",
   "private": false,
+  "homepage": "https://sbotpro.000webhostapp.com/trackback/",
   "dependencies": {
     "@heroicons/react": "^1.0.6",
     "@testing-library/jest-dom": "^5.14.1",

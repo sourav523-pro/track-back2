@@ -1,9 +1,9 @@
 import React, { useState, useContext } from 'react'
 import { GlobalContext } from '../context/GlobalState'
 import Alert from '../tailwindcomp/Alert'
-const rand = (length = 100) => {
-    return Math.floor((Math.random() * 100000) + length)
-}
+// const rand = (length = 100) => {
+//     return Math.floor((Math.random() * 100000) + length)
+// }
 const AddTransaction = () => {
     const [transaction, setTransaction] = useState({
         type: 'expense',
